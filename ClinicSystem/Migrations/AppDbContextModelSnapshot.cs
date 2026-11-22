@@ -176,6 +176,14 @@ namespace ClinicSystem.API.Migrations
                         .HasColumnType("int")
                         .HasColumnName("new_price");
 
+                    b.Property<DateOnly?>("NewSlotDate")
+                        .HasColumnType("date")
+                        .HasColumnName("new_slot_date");
+
+                    b.Property<TimeOnly?>("NewSlotTime")
+                        .HasColumnType("time(0)")
+                        .HasColumnName("new_slot_time");
+
                     b.Property<string>("NewType")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
@@ -184,6 +192,14 @@ namespace ClinicSystem.API.Migrations
                     b.Property<int?>("OldPrice")
                         .HasColumnType("int")
                         .HasColumnName("old_price");
+
+                    b.Property<DateOnly?>("OldSlotDate")
+                        .HasColumnType("date")
+                        .HasColumnName("old_slot_date");
+
+                    b.Property<TimeOnly?>("OldSlotTime")
+                        .HasColumnType("time(0)")
+                        .HasColumnName("old_slot_time");
 
                     b.Property<string>("OldType")
                         .HasMaxLength(50)
@@ -210,7 +226,7 @@ namespace ClinicSystem.API.Migrations
 
                     b.ToTable("booking_changes", null, t =>
                         {
-                            t.HasCheckConstraint("CK_BookingChanges_Action", "action IN ('create', 'change_type', 'cancel')");
+                            t.HasCheckConstraint("CK_BookingChanges_Action", "action IN ('create', 'change_type', 'cancel','reschedule')");
 
                             t.HasCheckConstraint("CK_BookingChanges_Reason", "LEN(reason + N'#') - 1 BETWEEN 3 AND 200");
                         });

@@ -12,7 +12,7 @@ namespace ClinicSystem.API.Data.Configurations
             {
                 t.HasCheckConstraint(
                     "CK_BookingChanges_Action",
-                    "action IN ('create', 'change_type', 'cancel')");
+                    "action IN ('create', 'change_type', 'cancel','reschedule')");
 
                 t.HasCheckConstraint(
                     "CK_BookingChanges_Reason",
@@ -54,6 +54,26 @@ namespace ClinicSystem.API.Data.Configurations
             // New Price
             builder.Property(b => b.NewPrice)
                 .HasColumnName("new_price");
+
+            // Old Slot Date
+            builder.Property(b => b.OldSlotDate)
+                .HasColumnName("old_slot_date")
+                .HasColumnType("date");
+
+            // New Slot Date
+            builder.Property(b => b.NewSlotDate)
+                .HasColumnName("new_slot_date")
+                .HasColumnType("date");
+
+            // Old Slot Time
+            builder.Property(b => b.OldSlotTime)
+                .HasColumnName("old_slot_time")
+                .HasColumnType("time(0)");
+
+            // New Slot Time
+            builder.Property(b => b.NewSlotTime)
+                .HasColumnName("new_slot_time")
+                .HasColumnType("time(0)");
 
             // Reason
             builder.Property(b => b.Reason)

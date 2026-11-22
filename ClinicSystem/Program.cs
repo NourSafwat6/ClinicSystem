@@ -1,6 +1,7 @@
 using ClinicSystem.API.Data;
 using ClinicSystem.API.Development;
 using ClinicSystem.API.Services;
+using ClinicSystem.API.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -89,6 +90,10 @@ namespace ClinicSystem
                 };
             });
             builder.Services.AddAuthorization();
+            builder.Services.Configure<ClinicScheduleSettings>(
+    builder.Configuration.GetSection("ClinicSchedule"));
+            builder.Services.AddScoped<AvailabilityService>();
+         
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
