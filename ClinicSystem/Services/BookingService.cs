@@ -433,5 +433,31 @@ CreateDeskBookingDto dto, Guid staffId)
 
             return (booking.Id, null);
         }
+        public async Task<List<BookingHistoryDto>> GetBookingHistoryAsync(Guid bookingId)
+        {
+            return await _context.BookingChanges
+                .AsNoTracking()
+                .Where(c => c.BookingId == bookingId)
+                .OrderByDescending(c => c.ChangedAt)
+                .Select(c => new BookingHistoryDto
+                {
+                    Id = c.Id,
+                    BookingId = c.BookingId,
+                    Action = c.Action,
+                    OldType = c.OldType,
+                    NewType = c.NewType,
+                    OldPrice = c.OldPrice,
+                    NewPrice = c.NewPrice,
+                    OldSlotDate = c.OldSlotDate,
+                    NewSlotDate = c.NewSlotDate,
+                    OldSlotTime = c.OldSlotTime,
+                    NewSlotTime = c.NewSlotTime,
+                    Reason = c.Reason,
+                    ChangedBy = c.ChangedBy,
+                    ChangedByName = c.ChangedByName,
+                    ChangedAt = c.ChangedAt
+                })
+                .ToListAsync();
+        }
     }
 }

@@ -182,5 +182,23 @@ Guid id, [FromBody] ChangeVisitTypeDto dto)
                 message = "Booking created successfully"
             });
         }
+
+        [HttpGet("{id:guid}/history")]
+        public async Task<IActionResult> GetBookingHistory(Guid id)
+        {
+            var booking = await _bookingService.GetBookingByIdAsync(id);
+
+            if (booking == null)
+            {
+                return NotFound(new
+                {
+                    message = "Booking not found."
+                });
+            }
+
+            var history = await _bookingService.GetBookingHistoryAsync(id);
+
+            return Ok(history);
+        }
     }
 }
